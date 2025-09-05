@@ -9,29 +9,34 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import LoginModal from './components/LoginModal';
 import AdminPanel from './components/AdminPanel';
+import PasswordProtection from './components/PasswordProtection';
 import './App.css';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // التحقق من حالة تسجيل الدخول عند تحميل التطبيق
   useEffect(() => {
     const savedUser = localStorage.getItem('tebyan_user');
     if (savedUser) {
       setCurrentUser(JSON.parse(savedUser));
+      setIsAuthenticated(true);
     }
   }, []);
 
   const handleLogin = (userData) => {
     setCurrentUser(userData);
+    setIsAuthenticated(true);
     localStorage.setItem('tebyan_user', JSON.stringify(userData));
     setShowLoginModal(false);
   };
 
   const handleLogout = () => {
     setCurrentUser(null);
+    setIsAuthenticated(false);
     localStorage.removeItem('tebyan_user');
     setShowAdminPanel(false);
   };
@@ -44,6 +49,15 @@ function App() {
       console.log(`Subscribing to ${planName} for $${planPrice}`);
     }
   };
+
+  const handlePasswordSuccess = () => {
+    setIsAuthenticated(true);
+  };
+
+  // إذا لم يتم إدخال كلمة المرور، اعرض شاشة الحماية
+  if (!isAuthenticated && !currentUser) {
+    return <PasswordProtection onPasswordCorrect={handlePasswordSuccess} />;
+  }
 
   return (
     <div className="min-h-screen bg-white" dir="rtl">

@@ -177,7 +177,7 @@ export const siteContent = {
 // إعدادات الموقع
 export const siteSettings = {
   // كلمة مرور الموقع (يمكن تغييرها)
-  sitePassword: "659312",
+  sitePassword: "380905",
   
   // إعدادات العضوية
   membership: {
