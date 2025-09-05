@@ -1,8 +1,4 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Lock, TrendingUp } from 'lucide-react';
 import { siteSettings } from '../data/content';
 
 const PasswordProtection = ({ onPasswordCorrect }) => {
@@ -27,57 +23,150 @@ const PasswordProtection = ({ onPasswordCorrect }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
-            <TrendingUp className="w-8 h-8 text-white" />
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '1rem'
+    }}>
+      <div style={{
+        width: '100%',
+        maxWidth: '400px',
+        backgroundColor: 'white',
+        borderRadius: '12px',
+        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+        padding: '2rem'
+      }}>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <div style={{
+            width: '64px',
+            height: '64px',
+            backgroundColor: '#2563eb',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 1rem auto'
+          }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+            </svg>
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-900">تبيان</CardTitle>
-          <CardDescription className="text-gray-600">
-            منصة تعليم تحليل الأسهم الأمريكية
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="mb-6 text-center">
-            <Lock className="mx-auto mb-2 w-12 h-12 text-blue-600" />
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">منطقة محمية</h2>
-            <p className="text-sm text-gray-600">
-              يرجى إدخال كلمة المرور للوصول إلى المحتوى
-            </p>
+          <h1 style={{
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            color: '#111827',
+            margin: '0 0 0.5rem 0'
+          }}>تبيان</h1>
+          <p style={{
+            color: '#6b7280',
+            fontSize: '0.875rem',
+            margin: 0
+          }}>منصة تعليم تحليل الأسهم الأمريكية</p>
+        </div>
+
+        {/* Lock Section */}
+        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          <div style={{
+            width: '48px',
+            height: '48px',
+            margin: '0 auto 0.5rem auto',
+            color: '#2563eb'
+          }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <circle cx="12" cy="16" r="1"></circle>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <h2 style={{
+            fontSize: '1.125rem',
+            fontWeight: '600',
+            color: '#111827',
+            margin: '0 0 0.5rem 0'
+          }}>منطقة محمية</h2>
+          <p style={{
+            fontSize: '0.875rem',
+            color: '#6b7280',
+            margin: 0
+          }}>يرجى إدخال كلمة المرور للوصول إلى المحتوى</p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: '1rem' }}>
+            <input
+              type="password"
+              placeholder="كلمة المرور"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={isLoading}
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                border: '1px solid #d1d5db',
+                borderRadius: '8px',
+                fontSize: '1rem',
+                textAlign: 'center',
+                outline: 'none',
+                transition: 'border-color 0.2s',
+                backgroundColor: isLoading ? '#f9fafb' : 'white'
+              }}
+              onFocus={(e) => e.target.style.borderColor = '#2563eb'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+            />
+            {error && (
+              <p style={{
+                marginTop: '0.5rem',
+                fontSize: '0.875rem',
+                color: '#dc2626',
+                textAlign: 'center'
+              }}>{error}</p>
+            )}
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Input
-                type="password"
-                placeholder="كلمة المرور"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="text-center"
-                disabled={isLoading}
-              />
-              {error && (
-                <p className="mt-2 text-sm text-red-600 text-center">{error}</p>
-              )}
-            </div>
+          <button
+            type="submit"
+            disabled={isLoading || !password}
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              backgroundColor: isLoading || !password ? '#9ca3af' : '#2563eb',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '1rem',
+              fontWeight: '600',
+              cursor: isLoading || !password ? 'not-allowed' : 'pointer',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseOver={(e) => {
+              if (!isLoading && password) {
+                e.target.style.backgroundColor = '#1d4ed8';
+              }
+            }}
+            onMouseOut={(e) => {
+              if (!isLoading && password) {
+                e.target.style.backgroundColor = '#2563eb';
+              }
+            }}
+          >
+            {isLoading ? 'جاري التحقق...' : 'دخول'}
+          </button>
+        </form>
 
-            <Button 
-              type="submit" 
-              className="w-full bg-blue-600 hover:bg-blue-700"
-              disabled={isLoading || !password}
-            >
-              {isLoading ? 'جاري التحقق...' : 'دخول'}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-xs text-gray-500">
-              هذا الموقع مؤقتاً أثناء تسليم المحتوى
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+        {/* Footer */}
+        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+          <p style={{
+            fontSize: '0.75rem',
+            color: '#9ca3af',
+            margin: 0
+          }}>هذا الموقع مؤقتاً أثناء تسليم المحتوى</p>
+        </div>
+      </div>
     </div>
   );
 };
